@@ -4,21 +4,16 @@ gnuplot -persist <<-EOFMarker
 	set title 'Code Profiling with All participants sending'
 	set xlabel "Number of Messages"
 	set ylabel '% of total time'
-	set key invert reverse Left outside
 
-	set grid y
-	set grid x
-
-	set xrange[1:30]
+	set xrange[-2:27]
 	set yrange [0:100]
-	set xtics 1
-	set border 3
+	unset xtics
 
 	set style data histograms
-	set style histogram rowstacked
-	set style fill solid border -1
-	set boxwidth 0
 
-	plot for [i=5:21] 'averages.csv' u i t column(i)
-	# plot 'averages.csv' u xtic(1) notitle, for [i=5:19] '' u i 
+	set style fill   solid 1.00 border lt -1
+	set key outside right top vertical Left reverse noenhanced autotitle columnhead nobox
+	set style histogram rowstacked title textcolor lt -1
+	
+	plot 'averages.csv' u 5:xtic(1), for [i=6:21] '' u i t column(i)
 EOFMarker
