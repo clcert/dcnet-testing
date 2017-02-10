@@ -45,7 +45,7 @@ directory_ip=$subnet$host
 for (( i=1; i<=${total_messages}; i++ ))
 do
 	msg=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $message_size | head -n 1)
-	docker run --name p$i --rm --env MSG=$msg --env DIRECTORY=$directory_ip participant-node 2>/dev/null 1>$log_folder/$i.csv &
+	docker run --name p$i --rm --env MSG=$msg --env DIRECTORY=$directory_ip participant-node 1>$log_folder/$i.csv &
 done
 limit=$((1 + ${total_messages}))
 for (( i=${limit}; i<=${participants}; i++ ))
@@ -55,7 +55,8 @@ done
 last_pid=$!
 
 # Configure and run pumba, in order to manage network parameters
-~/Descargas/pumba netem --duration ${participants}m delay -t $delay -j 0 -c 0 re2:^p &>/dev/null &
+./pumba netem --duration ${participants}m delay -t $delay -j 0 -c 0 
+re2:^p &>/dev/null &
 pumba_pid=$!
 
 # Wait 5 seconds and then run directory node
