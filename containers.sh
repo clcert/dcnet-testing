@@ -57,7 +57,7 @@ last_pid=$!
 sleep 5
 
 # Configure and run pumba, in order to manage network parameters
-./pumba netem --duration ${participants}m delay -t $delay -j 0 -c 0 re2:^p &
+./pumba netem --duration ${participants}m delay -t $delay -j 0 -c 0 re2:^p &>/dev/null &
 pumba_pid=$!
 
 # Wait 5 seconds and then run directory node

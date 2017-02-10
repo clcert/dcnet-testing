@@ -1,5 +1,8 @@
-Total Messages Size: 30454 bytes
-Average Messages Size per Round: 10151 bytes
-Average Bandwidth (by participant): 11654.269 B/s
-Average Bandwidth Approx. (all room): 34962.806 B/s
-2.613;1.772;0.871;27.167;4.012;0.998;0.754;14.083;1.930;2.355;0.000;17.263;1.275;0.013;15.647;1.774;0.012;12.676;0.001;0.021
+Original message size: 500 bytes
+Protocol message size: 511 bytes
+Total Messages Size: 98621 bytes
+real rounds played: 3
+Average Messages Size per Round: 32873 bytes
+Average Bandwidth (by participant): 2640.267 B/s
+Average Bandwidth Approx. (all room): 7920.802 B/s
+37.353;24.398;12.451;9.440;6.430;1.591;0.059;15.270;3.404;3.649;0.000;26.547;1.945;0.001;10.301;2.628;0.001;18.730;0.000;0.002
