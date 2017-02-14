@@ -36,6 +36,10 @@ then
 	usage
 fi
 
+# Create Docker images
+docker pull camilog/participant-node &>/dev/null
+docker pull camilog/directory-node &>/dev/null
+
 # Set directory node IP address (as the last container to be run)
 subnet="172.18.0."
 host=$((2 + ${participants}))
@@ -45,12 +49,12 @@ directory_ip=$subnet$host
 for (( i=1; i<=${total_messages}; i++ ))
 do
 	msg=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w $message_size | head -n 1)
-	docker run --name p$i --rm --env MSG=$msg --env DIRECTORY=$directory_ip participant-node 1>$log_folder/$i.csv &
+	docker run --name p$i --rm --env MSG=$msg --env DIRECTORY=$directory_ip camilog/participant-node 1>$log_folder/$i.csv &
 done
 limit=$((1 + ${total_messages}))
 for (( i=${limit}; i<=${participants}; i++ ))
 do
-	docker run --name p$i --rm --env MSG='' --env DIRECTORY=$directory_ip participant-node 2>/dev/null 1>$log_folder/$i.csv &
+	docker run --name p$i --rm --env MSG='' --env DIRECTORY=$directory_ip camilog/participant-node 2>/dev/null 1>$log_folder/$i.csv &
 done
 last_pid=$!
 
@@ -62,7 +66,7 @@ pumba_pid=$!
 
 # Wait 5 seconds and then run directory node
 sleep 20
-docker run --name dir --rm --env N=$participants --env MSG_SIZE=$message_size --env PAD_LENGTH=10 --env NON_PROB=true directory-node &>/dev/null &
+docker run --name dir --rm --env N=$participants --env MSG_SIZE=$message_size --env PAD_LENGTH=10 --env NON_PROB=true camilog/directory-node &>/dev/null &
 
 # Wait last participant node and kill pumba process
 wait $last_pid
