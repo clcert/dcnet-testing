@@ -62,8 +62,11 @@ last_pid=$!
 sleep 5
 
 # Configure and run pumba, in order to manage network parameters
-./pumba netem --duration ${participants}m delay -t $delay -j 0 -c 0 re2:^p &>/dev/null &
-pumba_pid=$!
+if [ $delay -ne 0 ]
+then
+	./pumba netem --duration ${participants}m delay -t $delay -j 0 -c 0 re2:^p &>/dev/null &
+	pumba_pid=$!
+fi
 
 # Wait 5 seconds and then run directory node
 sleep 20
@@ -71,4 +74,7 @@ docker run --name dir --rm --env N=$participants --env MSG_SIZE=$message_size --
 
 # Wait last participant node and kill pumba process
 wait $last_pid
-kill $pumba_pid
+if [ $delay -ne 0 ]
+then
+	kill $pumba_pid
+fi
