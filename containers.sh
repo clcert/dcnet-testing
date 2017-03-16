@@ -41,7 +41,8 @@ docker pull camilog/participant-node &>/dev/null
 docker pull camilog/directory-node &>/dev/null
 
 # Set directory node IP address (as the last container to be run)
-subnet="172.18.0."
+# subnet="172.18.0."
+subnet=$(ip route | grep 'docker' | cut -c1-9)
 host=$((2 + ${participants}))
 directory_ip=$subnet$host
 
